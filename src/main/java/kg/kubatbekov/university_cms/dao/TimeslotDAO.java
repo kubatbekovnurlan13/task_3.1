@@ -17,10 +17,6 @@ public class TimeslotDAO {
         this.timeslotRepository = timeslotRepository;
     }
 
-    public Optional<Timeslot> find(int id) {
-        return timeslotRepository.findById(id);
-    }
-
     public List<Timeslot> findAll() {
         return timeslotRepository.findAll();
     }

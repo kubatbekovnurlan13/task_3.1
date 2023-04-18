@@ -39,6 +39,12 @@ public class Group {
     public Group() {
     }
 
+    public Group(int groupId, String groupName, int grade) {
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.grade = grade;
+    }
+
     public int getGroupSize() {
         return students.size();
     }

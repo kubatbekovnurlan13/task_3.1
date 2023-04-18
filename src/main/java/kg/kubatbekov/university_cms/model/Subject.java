@@ -39,6 +39,12 @@ public class Subject {
     public Subject() {
     }
 
+    public Subject(int subjectId, String subjectCode, String subjectName) {
+        this.subjectId = subjectId;
+        this.subjectCode = subjectCode;
+        this.subjectName = subjectName;
+    }
+
     public int getRandomProfessorId() {
         return this.professors.get((int) (this.professors.size() * Math.random())).getProfessorId();
     }

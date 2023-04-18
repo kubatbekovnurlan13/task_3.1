@@ -1,4 +1,4 @@
-package kg.kubatbekov.university_cms.service;
+package kg.kubatbekov.university_cms.geneticAlgorithm;
 
 public class GeneticAlgorithm {
     private final int populationSize;

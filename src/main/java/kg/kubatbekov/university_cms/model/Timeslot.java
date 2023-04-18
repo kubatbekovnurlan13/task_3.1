@@ -36,6 +36,12 @@ public class Timeslot {
     public Timeslot() {
     }
 
+    public Timeslot(int timeslotId, Weekday weekday, String durationValue) {
+        this.timeslotId = timeslotId;
+        this.weekday = weekday;
+        this.durationValue = durationValue;
+    }
+
     public static Weekday[] getWeekDays() {
         return Weekday.values();
     }

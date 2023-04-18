@@ -28,6 +28,12 @@ public class Room {
     public Room() {
     }
 
+    public Room(int roomId, String roomNumber, int capacity) {
+        this.roomId = roomId;
+        this.roomNumber = roomNumber;
+        this.capacity = capacity;
+    }
+
     @Override
     public String toString() {
         return "Room{" +

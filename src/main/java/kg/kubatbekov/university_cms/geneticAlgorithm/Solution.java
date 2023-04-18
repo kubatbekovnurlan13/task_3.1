@@ -1,4 +1,4 @@
-package kg.kubatbekov.university_cms.service;
+package kg.kubatbekov.university_cms.geneticAlgorithm;
 
 import kg.kubatbekov.university_cms.model.Group;
 import kg.kubatbekov.university_cms.model.Subject;
