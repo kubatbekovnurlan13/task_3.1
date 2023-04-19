@@ -46,7 +46,13 @@ public class Course {
         this.subject = subject;
     }
 
-    public Course(int courseId, Group group, Subject subject, Professor professor, Timeslot timeslot, Room room) {
+    public Course(
+            int courseId,
+            Group group,
+            Subject subject,
+            Professor professor,
+            Timeslot timeslot,
+            Room room) {
         this.courseId = courseId;
         this.group = group;
         this.subject = subject;

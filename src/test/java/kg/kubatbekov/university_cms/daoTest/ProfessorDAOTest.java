@@ -1,4 +1,4 @@
-package kg.kubatbekov.university_cms.DAOTest;
+package kg.kubatbekov.university_cms.daoTest;
 
 import kg.kubatbekov.university_cms.dao.ProfessorDAO;
 import kg.kubatbekov.university_cms.model.Professor;

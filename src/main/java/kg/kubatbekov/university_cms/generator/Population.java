@@ -1,4 +1,4 @@
-package kg.kubatbekov.university_cms.geneticAlgorithm;
+package kg.kubatbekov.university_cms.generator;
 
 import java.util.ArrayList;
 import java.util.List;

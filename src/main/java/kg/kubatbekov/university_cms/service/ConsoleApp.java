@@ -1,10 +1,10 @@
 package kg.kubatbekov.university_cms.service;
 
 import kg.kubatbekov.university_cms.dao.*;
-import kg.kubatbekov.university_cms.geneticAlgorithm.GeneticAlgorithm;
-import kg.kubatbekov.university_cms.geneticAlgorithm.Population;
-import kg.kubatbekov.university_cms.geneticAlgorithm.Solution;
-import kg.kubatbekov.university_cms.geneticAlgorithm.Timetable;
+import kg.kubatbekov.university_cms.generator.GeneticAlgorithm;
+import kg.kubatbekov.university_cms.generator.Population;
+import kg.kubatbekov.university_cms.generator.Solution;
+import kg.kubatbekov.university_cms.generator.Timetable;
 import kg.kubatbekov.university_cms.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
