@@ -23,7 +23,7 @@ public class Professor {
     private List<Subject> subjects;
 
     @OneToMany(mappedBy = "professor")
-    private List<Course> courses;
+    private List<Lesson> cours;
 
     public Professor() {
     }

@@ -34,7 +34,7 @@ public class Subject {
     private List<Group> groups;
 
     @OneToMany(mappedBy = "subject")
-    private List<Course> courses;
+    private List<Lesson> cours;
 
     public Subject() {
     }

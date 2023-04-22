@@ -16,9 +16,9 @@ Definition of models:
 
 * **Room** model -  represents oddly enough a room. 
   It has id, room number and capacity.
-* **Timeslot** model - represents one unit of time for course.
+* **Timeslot** model - represents one unit of time for lesson.
   Like -> _Monday-9:00-10:30_. It has id, weekday(enum) and duration(enum).
-* **Subject** model - represents subject for course.
+* **Subject** model - represents subject for lesson.
     It has id, subject name, subject code and professor of subject.
 * **Student** model - represents student. It has id, name, surname, 
         age and Group to which it belongs.
@@ -27,7 +27,7 @@ Definition of models:
     It has id, name, grade, list of subjects and list of students.
 * **Course** model - represents one class at unique Timeslot with unique Room, also Course 
     has Teacher which teaches certain Subject to one Group. 
-  Actually course can not have duplicate. The list of certain Courses is make up schedule(timetable). 
+  Actually lesson can not have duplicate. The list of certain Courses is make up schedule(timetable). 
 
 ### How it works in general
    

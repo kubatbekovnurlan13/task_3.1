@@ -11,7 +11,7 @@ import lombok.Setter;
 @Table(name = "courses")
 @Getter
 @Setter
-public class Course {
+public class Lesson {
     @Id
     @Column(name = "course_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,16 +37,16 @@ public class Course {
     @JoinColumn(name = "room_id", referencedColumnName = "room_id")
     private Room room;
 
-    public Course() {
+    public Lesson() {
     }
 
-    public Course(int courseId, Group group, Subject subject) {
+    public Lesson(int courseId, Group group, Subject subject) {
         this.courseId = courseId;
         this.group = group;
         this.subject = subject;
     }
 
-    public Course(
+    public Lesson(
             int courseId,
             Group group,
             Subject subject,

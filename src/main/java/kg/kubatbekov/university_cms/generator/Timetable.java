@@ -21,7 +21,7 @@ public class Timetable {
     private final List<Group> groups;
     private final List<Timeslot> timeslots;
 
-    private List<Course> courses;
+    private List<Lesson> cours;
 
     public Timetable() {
         this.rooms = new ArrayList<>();
@@ -48,7 +48,7 @@ public class Timetable {
      * them than with the chromosome(course-bones) directly.
      */
     public void createCourses(Solution solution) {
-        List<Course> classes = new ArrayList<>();
+        List<Lesson> classes = new ArrayList<>();
 
         // Get solution's solutionChromosome
         List<Integer> solutionChromosome = solution.getChromosome();
@@ -58,52 +58,52 @@ public class Timetable {
         for (Group group : this.getGroups()) {
             for (Subject subject : group.getSubjects()) {
                 //Add course to list of Courses
-                Course course = new Course(courseIndex, group, subject);
+                Lesson lesson = new Lesson(courseIndex, group, subject);
 
                 // Add timeslot to the course
-                addTimeslotToCourse(course, solutionChromosome, chromosomePosition);
+                addTimeslotToCourse(lesson, solutionChromosome, chromosomePosition);
                 chromosomePosition++;
 
                 // Add room to the course
-                addRoomToCourse(course, solutionChromosome, chromosomePosition);
+                addRoomToCourse(lesson, solutionChromosome, chromosomePosition);
                 chromosomePosition++;
 
                 // Add professor to the course
-                addProfessorToCourse(course, solutionChromosome, chromosomePosition);
+                addProfessorToCourse(lesson, solutionChromosome, chromosomePosition);
                 chromosomePosition++;
 
-                classes.add(course);
+                classes.add(lesson);
                 courseIndex++;
             }
         }
-        this.courses = classes;
+        this.cours = classes;
     }
 
     private void addTimeslotToCourse(
-            Course course,
+            Lesson lesson,
             List<Integer> solutionChromosome,
             int chromosomePosition) {
         // Add timeslot to the course
         int timeslotId = solutionChromosome.get(chromosomePosition);
-        course.setTimeslot(getTimeslotById(timeslotId));
+        lesson.setTimeslot(getTimeslotById(timeslotId));
     }
 
     private void addRoomToCourse(
-            Course course,
+            Lesson lesson,
             List<Integer> solutionChromosome,
             int chromosomePosition) {
         // Add room to the course
         int roomId = solutionChromosome.get(chromosomePosition);
-        course.setRoom(getRoomById(roomId));
+        lesson.setRoom(getRoomById(roomId));
     }
 
     private void addProfessorToCourse(
-            Course course,
+            Lesson lesson,
             List<Integer> solutionChromosome,
             int chromosomePosition) {
         // Add professor to the course
         int professorId = solutionChromosome.get(chromosomePosition);
-        course.setProfessor(getProfessorById(professorId));
+        lesson.setProfessor(getProfessorById(professorId));
     }
 
     /**
@@ -114,34 +114,34 @@ public class Timetable {
      */
     public int calculateClashes() {
         int clashes = 0;
-        for (Course underTestCourse : this.courses) {
+        for (Lesson underTestLesson : this.cours) {
 
-            clashes = checkRoomCapacity(underTestCourse, clashes);
+            clashes = checkRoomCapacity(underTestLesson, clashes);
 
-            clashes = isRoomTaken(underTestCourse, clashes);
+            clashes = isRoomTaken(underTestLesson, clashes);
 
-            clashes = isProfessorAvailable(underTestCourse, clashes);
+            clashes = isProfessorAvailable(underTestLesson, clashes);
 
         }
         return clashes;
     }
 
-    private int checkRoomCapacity(Course underTestCourse, int clashes) {
+    private int checkRoomCapacity(Lesson underTestLesson, int clashes) {
         // Check room capacity
-        int roomCapacity = underTestCourse.getRoom().getCapacity();
-        int groupSize = underTestCourse.getGroup().getGroupSize();
+        int roomCapacity = underTestLesson.getRoom().getCapacity();
+        int groupSize = underTestLesson.getGroup().getGroupSize();
         if (roomCapacity < groupSize) {
             clashes++;
         }
         return clashes;
     }
 
-    private int isRoomTaken(Course underTestCourse, int clashes) {
+    private int isRoomTaken(Lesson underTestLesson, int clashes) {
         // Check if room is taken
-        for (Course otherCourse : this.courses) {
-            if (underTestCourse.getRoom().getRoomId() == otherCourse.getRoom().getRoomId()
-                    && underTestCourse.getTimeslot().getTimeslotId() == otherCourse.getTimeslot().getTimeslotId()
-                    && underTestCourse.getCourseId() != otherCourse.getCourseId()) {
+        for (Lesson otherLesson : this.cours) {
+            if (underTestLesson.getRoom().getRoomId() == otherLesson.getRoom().getRoomId()
+                    && underTestLesson.getTimeslot().getTimeslotId() == otherLesson.getTimeslot().getTimeslotId()
+                    && underTestLesson.getCourseId() != otherLesson.getCourseId()) {
                 clashes++;
                 break;
             }
@@ -149,12 +149,12 @@ public class Timetable {
         return clashes;
     }
 
-    private int isProfessorAvailable(Course underTestCourse, int clashes) {
+    private int isProfessorAvailable(Lesson underTestLesson, int clashes) {
         // Check if professor is available
-        for (Course otherCourse : this.courses) {
-            if (underTestCourse.getProfessor().getProfessorId() == otherCourse.getProfessor().getProfessorId()
-                    && underTestCourse.getTimeslot().getTimeslotId() == otherCourse.getTimeslot().getTimeslotId()
-                    && underTestCourse.getCourseId() != otherCourse.getCourseId()) {
+        for (Lesson otherLesson : this.cours) {
+            if (underTestLesson.getProfessor().getProfessorId() == otherLesson.getProfessor().getProfessorId()
+                    && underTestLesson.getTimeslot().getTimeslotId() == otherLesson.getTimeslot().getTimeslotId()
+                    && underTestLesson.getCourseId() != otherLesson.getCourseId()) {
                 clashes++;
                 break;
             }
@@ -204,8 +204,8 @@ public class Timetable {
         return this.rooms;
     }
 
-    public List<Course> getCourses() {
-        return this.courses;
+    public List<Lesson> getCourses() {
+        return this.cours;
     }
 
     public List<Group> getGroups() {

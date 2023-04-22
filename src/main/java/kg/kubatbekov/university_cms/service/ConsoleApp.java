@@ -24,7 +24,7 @@ public class ConsoleApp implements CommandLineRunner {
     private final ProfessorDAO professorDAO;
     private final SubjectDAO subjectDAO;
     private final GroupDAO groupDAO;
-    private final CourseDAO courseDAO;
+    private final LessonDAO lessonDAO;
     private final StudentDAO studentDAO;
 
     @Autowired
@@ -34,14 +34,14 @@ public class ConsoleApp implements CommandLineRunner {
             ProfessorDAO professorDAO,
             SubjectDAO subjectDAO,
             GroupDAO groupDAO,
-            CourseDAO courseDAO,
+            LessonDAO lessonDAO,
             StudentDAO studentDAO) {
         this.roomDAO = roomDAO;
         this.timeslotDAO = timeslotDAO;
         this.professorDAO = professorDAO;
         this.subjectDAO = subjectDAO;
         this.groupDAO = groupDAO;
-        this.courseDAO = courseDAO;
+        this.lessonDAO = lessonDAO;
         this.studentDAO = studentDAO;
     }
 
@@ -87,10 +87,10 @@ public class ConsoleApp implements CommandLineRunner {
             System.out.println("Wrong id, try again!");
             getTeacherTimetable();
         } else {
-            List<Course> courses = courseDAO.findByProfessorId(professor.get().getProfessorId());
+            List<Lesson> cours = lessonDAO.findByProfessorId(professor.get().getProfessorId());
             System.out.println(" Teacher's timetable for week");
-            printTimetable(courses);
-            calculateAndDrawTimetable(courses);
+            printTimetable(cours);
+            calculateAndDrawTimetable(cours);
         }
     }
 
@@ -103,15 +103,15 @@ public class ConsoleApp implements CommandLineRunner {
             getStudentTimetable();
         } else {
             int groupId = student.get().getGroup().getGroupId();
-            List<Course> courses = courseDAO.findByGroupId(groupId);
+            List<Lesson> cours = lessonDAO.findByGroupId(groupId);
             System.out.println(" Student's timetable for week");
-            printTimetable(courses);
-            calculateAndDrawTimetable(courses);
+            printTimetable(cours);
+            calculateAndDrawTimetable(cours);
         }
     }
 
-    private void calculateAndDrawTimetable(List<Course> courses) {
-        String[][] timetable = sortTimetableToArray(courses);
+    private void calculateAndDrawTimetable(List<Lesson> cours) {
+        String[][] timetable = sortTimetableToArray(cours);
 
         String title = getDaysInLine();
         String all = drawTimetable(timetable);
@@ -148,7 +148,7 @@ public class ConsoleApp implements CommandLineRunner {
         return all.toString();
     }
 
-    private String[][] sortTimetableToArray(List<Course> courses) {
+    private String[][] sortTimetableToArray(List<Lesson> cours) {
         Timeslot.Weekday[] weekdays = Timeslot.getWeekDays();
         Timeslot.Duration[] durations = Timeslot.getDuration();
 
@@ -161,10 +161,10 @@ public class ConsoleApp implements CommandLineRunner {
         for (Timeslot.Duration duration : durations) {
             int weekdayIndex = 0;
             for (Timeslot.Weekday weekday : weekdays) {
-                for (Course course : courses) {
-                    if (Objects.equals(course.getTimeslot().getDurationValue(), duration.getHours())
-                            && course.getTimeslot().getWeekday() == weekday) {
-                        timetable[durationIndex][weekdayIndex] = "Course id - " + course.getCourseId();
+                for (Lesson lesson : cours) {
+                    if (Objects.equals(lesson.getTimeslot().getDurationValue(), duration.getHours())
+                            && lesson.getTimeslot().getWeekday() == weekday) {
+                        timetable[durationIndex][weekdayIndex] = "Course id - " + lesson.getCourseId();
                     }
                 }
                 weekdayIndex++;
@@ -198,23 +198,23 @@ public class ConsoleApp implements CommandLineRunner {
 
         int DB_SIZE_OF_SUBJECTS_PROFESSORS = subjectDAO.subjectsProfessorsSize();
         int DB_SIZE_OF_GROUPS_SUBJECTS = groupDAO.groupsSubjectsSize();
-        int DB_COURSES_SIZE = courseDAO.findAll().size();
+        int DB_COURSES_SIZE = lessonDAO.findAll().size();
 
         if (DB_COURSES_SIZE == 0) {
-            List<Course> timetable = generateTimetable();
-            courseDAO.saveAll(timetable);
+            List<Lesson> timetable = generateTimetable();
+            lessonDAO.saveAll(timetable);
             printTimetable(timetable);
         } else if (
                 DB_SIZE_OF_SUBJECTS_PROFESSORS != SIZE_OF_SUBJECTS_PROFESSORS
                         && DB_SIZE_OF_GROUPS_SUBJECTS != SIZE_OF_GROUPS_SUBJECTS) {
-            courseDAO.deleteAll();
-            List<Course> newTimetable = generateTimetable();
-            courseDAO.saveAll(newTimetable);
+            lessonDAO.deleteAll();
+            List<Lesson> newTimetable = generateTimetable();
+            lessonDAO.saveAll(newTimetable);
             printTimetable(newTimetable);
         }
     }
 
-    private List<Course> generateTimetable() {
+    private List<Lesson> generateTimetable() {
         // Get a Timetable object with all the available information.
         Timetable timetable = initializeTimetable();
 
@@ -248,19 +248,19 @@ public class ConsoleApp implements CommandLineRunner {
         return timetable.getCourses();
     }
 
-    private void printTimetable(List<Course> courses) {
+    private void printTimetable(List<Lesson> cours) {
         String newLine = "%-20s|";
         StringBuilder info = new StringBuilder();
 
         System.out.println();
-        for (Course course : courses) {
-            info.append(String.format(newLine, "|Course id")).append(String.format(newLine, course.getCourseId())).append("\n");
-            info.append(String.format(newLine, "|Subject")).append(String.format(newLine, course.getSubject().getSubjectName())).append("\n");
-            info.append(String.format(newLine, "|Group")).append(String.format(newLine, course.getGroup().getGroupName())).append("\n");
-            info.append(String.format(newLine, "|Room")).append(String.format(newLine, course.getRoom().getRoomNumber())).append("\n");
-            info.append(String.format(newLine, "|Professor")).append(String.format(newLine, course.getProfessor().getProfessorName())).append("\n");
-            info.append(String.format(newLine, "|Day")).append(String.format(newLine, course.getTimeslot().getWeekday().toString().toUpperCase())).append("\n");
-            info.append(String.format(newLine, "|Time")).append(String.format(newLine, course.getTimeslot().getDurationValue())).append("\n");
+        for (Lesson lesson : cours) {
+            info.append(String.format(newLine, "|Course id")).append(String.format(newLine, lesson.getCourseId())).append("\n");
+            info.append(String.format(newLine, "|Subject")).append(String.format(newLine, lesson.getSubject().getSubjectName())).append("\n");
+            info.append(String.format(newLine, "|Group")).append(String.format(newLine, lesson.getGroup().getGroupName())).append("\n");
+            info.append(String.format(newLine, "|Room")).append(String.format(newLine, lesson.getRoom().getRoomNumber())).append("\n");
+            info.append(String.format(newLine, "|Professor")).append(String.format(newLine, lesson.getProfessor().getProfessorName())).append("\n");
+            info.append(String.format(newLine, "|Day")).append(String.format(newLine, lesson.getTimeslot().getWeekday().toString().toUpperCase())).append("\n");
+            info.append(String.format(newLine, "|Time")).append(String.format(newLine, lesson.getTimeslot().getDurationValue())).append("\n");
             info.append(String.format(newLine, "-".repeat(41))).append("\n");
         }
         System.out.println(info);

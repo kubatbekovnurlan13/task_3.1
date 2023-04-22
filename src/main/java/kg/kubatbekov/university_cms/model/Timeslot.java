@@ -28,7 +28,7 @@ public class Timeslot {
     private String durationValue;
 
     @OneToMany(mappedBy = "timeslot")
-    private List<Course> courses;
+    private List<Lesson> cours;
 
     @Transient
     private Duration duration;

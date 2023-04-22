@@ -1,7 +1,7 @@
 package kg.kubatbekov.university_cms.daoTest;
 
 import kg.kubatbekov.university_cms.container.PostgresContainer;
-import kg.kubatbekov.university_cms.dao.CourseDAO;
+import kg.kubatbekov.university_cms.dao.LessonDAO;
 import kg.kubatbekov.university_cms.model.*;
 import kg.kubatbekov.university_cms.service.ConsoleApp;
 import org.junit.jupiter.api.*;
@@ -13,32 +13,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-class CourseDAOTest extends PostgresContainer {
+class LessonDAOTest extends PostgresContainer {
     @MockBean
     private ConsoleApp consoleApp;
 
     @Autowired
-    private CourseDAO courseDAO;
+    private LessonDAO lessonDAO;
 
 
     @Test
     void findAll_testFindAll_whenThereNoValueInput() {
-        List<Course> courses = courseDAO.findAll();
-        int actual = courses.size();
+        List<Lesson> cours = lessonDAO.findAll();
+        int actual = cours.size();
         Assertions.assertEquals(0, actual);
     }
 
     @Test
     void findByGroupId_testFindByGroupId_whenThereNoValueInput() {
-        List<Course> courses = courseDAO.findByGroupId(1);
-        int actual = courses.size();
+        List<Lesson> cours = lessonDAO.findByGroupId(1);
+        int actual = cours.size();
         Assertions.assertEquals(0, actual);
     }
 
     @Test
     void findByProfessorId_testFindByProfessorId_whenThereNoValueInput() {
-        List<Course> courses = courseDAO.findByProfessorId(1);
-        int actual = courses.size();
+        List<Lesson> cours = lessonDAO.findByProfessorId(1);
+        int actual = cours.size();
         Assertions.assertEquals(0, actual);
     }
 
@@ -52,30 +52,30 @@ class CourseDAOTest extends PostgresContainer {
             Subject subject = new Subject(1, "subject code ", "subject name");
             Group group = new Group(1, "group name ", 1);
 
-            Course course = new Course(1, group, subject, professor, timeslot, room);
-            List<Course> newCourses = new ArrayList<>();
-            newCourses.add(course);
-            courseDAO.saveAll(newCourses);
+            Lesson lesson = new Lesson(1, group, subject, professor, timeslot, room);
+            List<Lesson> newCours = new ArrayList<>();
+            newCours.add(lesson);
+            lessonDAO.saveAll(newCours);
         }
 
         @Test
         void findAll_testFindAll_whenThereIsValueInput() {
-            List<Course> courses = courseDAO.findAll();
-            int actual = courses.size();
+            List<Lesson> cours = lessonDAO.findAll();
+            int actual = cours.size();
             Assertions.assertEquals(1, actual);
         }
 
         @Test
         void findByGroupId_testFindByGroupId_whenThereIsValueInput() {
-            List<Course> courses = courseDAO.findByGroupId(1);
-            int actual = courses.size();
+            List<Lesson> cours = lessonDAO.findByGroupId(1);
+            int actual = cours.size();
             Assertions.assertEquals(1, actual);
         }
 
         @Test
         void findByProfessorId_testFindByProfessorId_whenThereIsValueInput() {
-            List<Course> courses = courseDAO.findByProfessorId(1);
-            int actual = courses.size();
+            List<Lesson> cours = lessonDAO.findByProfessorId(1);
+            int actual = cours.size();
             Assertions.assertEquals(1, actual);
         }
     }
